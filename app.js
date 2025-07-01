@@ -83,7 +83,7 @@ app.get('/', (req, res) => {
 
 // INICIALIZATION SERVER:
 
-const port = 3000; // Porta do servidor.
+const port = 3001; // Porta do servidor.
 
 server.listen(port, () => {
     console.log(`Servidor ouvindo na porta ${port}`);
