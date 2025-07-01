@@ -1,0 +1,24 @@
+Os arquivos estão na seguinte estrutura (identação para auxiliar de qual pasta pertence cada arquivo):
+
+📁public
+    style.css
+    simbol.svg
+    index.js
+    index.html
+    📁media
+        logo.svg
+📁script
+    script.js
+    📁functions
+        geral_functions.js
+    📁db
+        db.js
+    📁api
+        user.js
+
+app.js
+config.js
+package.json
+package-lock.json
+
+Preciso saber a estrutura atual do banco de dados que possuo para meus arquivos, com nome das tabelas, colunas... Pois eu perdi o banco de dados, preciso montar um novamente para servir esse sistema.
