@@ -85,6 +85,10 @@ $(document).ready(function () {
         createDivStats(dataColor, dataNumber);
     });
 
+    socket.on('messageErroServer', (message) => {
+        alert(message);
+    });
+
     // Atualiza a contagem de tempo para a proxima partida:
     socket.on('countdown', (tempCountdown) => {
         timerElement.show();

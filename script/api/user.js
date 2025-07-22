@@ -9,7 +9,11 @@ class User {
             let valueFormated = value.replace('.', '');
             valueFormated = valueFormated.replace(',', '.');
             valueFormated = parseFloat(valueFormated); // Valor formatado em float EX: 509,09 => 509.09.
+            wallet = parseFloat(wallet);
             if (wallet >= valueFormated) {
+                console.log('Aposta Recebida e Aprovada')
+                console.log('Valor recebido: ' + valueFormated)
+                console.log('Valor da carteira: ' + wallet)
                 wallet = wallet - valueFormated;
                 // Atualiza a carteira via API do usuario e o display.
                 await this.updateWalletDisplay(io, wallet);

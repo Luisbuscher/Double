@@ -46,7 +46,7 @@ io.on('connection', (socket) => {
         // Recebe false se perdeu ou o valor ganho.
         let responseResult = dataFunctionsDouble.calculateValueWonAndLost(resultColor, colorBet, valueBet);
         if (responseResult != false) {
-            wallet = wallet - responseResult;
+            wallet = wallet + responseResult;
             await user_api.updateWalletDisplay(socket, wallet); // Atualiza o display da carteira do usuario.
         }
         colorBet = ''; // Reinicia a cor apostada se a aposta automatica nao tiver ativa.
@@ -58,14 +58,14 @@ io.on('connection', (socket) => {
     socket.on('registerBet', async (betAmount, betColor) => {
 
         // Valida a aposta, caso o numero seja invalido retorna false.
-        let validateBet = user_api.validadeBet(socket, betAmount, wallet);
-        let valueFormated = geralFunction.validateValueBet(betAmount);
+        let validateBet = await user_api.validadeBet(socket, betAmount, wallet);
+        //let valueFormated = geralFunction.validateValueBet(betAmount);
+        console.log(validateBet);
 
         if (validateBet != false) {
-            valueBet = valueFormated; // Salva o valor apostado pelo usuario.
+            valueBet = validateBet; // Salva o valor apostado pelo usuario.
             wallet -= valueBet;
             colorBet = betColor;
-            db.setBet(valueFormated, betColor); // Envia a aposta e soma ao banco de dados com o restante das apostas.
             await user_api.updateWalletDisplay(socket, wallet); // Atualiza o display da carteira do usuario.
         }
     });

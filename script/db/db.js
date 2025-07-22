@@ -60,25 +60,6 @@ class ConnectDB {
         }
     }
 
-
-    //Funcao para dar update e somar aposta ao banco de dados:
-    async setBet(betValue, betColor) {
-        const client = await this.connect();
-        const resultValues = await this.getCurrentIdAndCurrentTotalBet();
-        let currentId = resultValues.map(objeto => objeto.id);
-        currentId = currentId[currentId.length - 1];
-        try {
-            const sql = `UPDATE game SET total_bet = total_bet + $1, bet_${betColor} = bet_${betColor} + $2 WHERE id = $3;`;
-            const values = [betValue, betValue, currentId];
-            return await client.query(sql, values);
-        } catch (error) {
-            console.error('Erro ao atualizar dinheiro das apostas!');
-            throw error;
-        } finally {
-            client.release();
-        }
-    }
-
     //Funcao final que da update da cor e numero resultante ao final da partida:
     async endSet(color, colorNumber) {
         const client = await this.connect();
