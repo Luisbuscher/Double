@@ -107,6 +107,20 @@ class ConnectDB {
         }
     }
 
+    // Função para limpar todos os dados da tabela game:
+    async truncateGameTable() {
+        const client = await this.connect();
+        try {
+            await client.query('TRUNCATE TABLE game RESTART IDENTITY CASCADE;');
+            console.log('Tabela "game" truncada com sucesso!');
+        } catch (error) {
+            console.error('Erro ao truncar a tabela game:', error);
+            throw error;
+        } finally {
+            client.release();
+        }
+    }
+
 }
 
 module.exports = ConnectDB;

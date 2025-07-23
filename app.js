@@ -12,6 +12,7 @@ const path = require('path'); // Carrega o módulo 'path' nativo do Node.js, que
 const app = express(); // Cria uma nova instância do Express, que será usada para definir o servidor;
 const server = http.createServer(app); // Cria um novo servidor HTTP usando a instância do Express;
 const io = socketIo(server); // Integra o Socket.IO com o servidor HTTP, permitindo comunicações em tempo real através de WebSockets;
+const cron = require('node-cron'); // <-- Adicione no topo com os outros imports
 
 // Variavel globais.
 const { divData, urls } = require('./config.js');
@@ -25,6 +26,17 @@ const dataFunctionsDouble = new DataFunctionsDouble(io, 15, [], db, divData); //
 
 db.insertCustomer(); // Inicia a tabela do primeiro jogo, o restante sera de forma automatica pelo script enquanto servidor estiver rodando.
 dataFunctionsDouble.timeForNextRound(); // Inicia o contador.
+
+// Agendamento para executar todo dia à meia-noite
+cron.schedule('0 0 * * *', async () => {
+    console.log('Executando truncamento da tabela game às 00:00...');
+    try {
+        await db.truncateGameTable();
+        await db.insertCustomer(); // Para já inserir o novo jogo após limpar
+    } catch (error) {
+        console.error('Erro ao executar o truncamento programado:', error);
+    }
+});
 
 // SOCKET/SERVIDOR:
 io.on('connection', (socket) => {
